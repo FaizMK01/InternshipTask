@@ -20,5 +20,5 @@ samples, guidance on mobile development, and a full API reference.
 Check out the demo of the project in the video below:
 
 [Watch the demo video](https://drive.google.com/file/d/14uRe66lOc_GBZaLFilUBK6L2o5FJ0uif/view?usp=drive_link)
-[Watch the demo video](https://drive.google.com/file/d/1_R2T4mAYjSxCvw-ltkOr31FUzCr7bJGo/view?usp=drive_link)
+[Watch the demo video](https://drive.google.com/file/d/1D_2i2Cn-pyw8Hx2N_tr-joY-gydJyRVl/view?usp=drive_link)
 
