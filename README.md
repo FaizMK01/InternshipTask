@@ -22,7 +22,7 @@ Check out the demo of the project in the video below:
 First Video:
 
 Google Sign-In
-Resend Verification Dialog box 60 second
+if the email is not verfied Resend Verification Dialog box 60 second
 
 Second Video:
 
