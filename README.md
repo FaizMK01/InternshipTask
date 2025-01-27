@@ -19,6 +19,19 @@ samples, guidance on mobile development, and a full API reference.
 
 Check out the demo of the project in the video below:
 
+First Video:
+
+Google Sign-In
+Resend Verification Steps
+
+Second Video:
+
+Validation and Verification Link
+Login Screen
+Home Screen
+Name and Image Edit
+Signup, Login, and Logout Snackbars
+
 [Watch the demo video](https://drive.google.com/file/d/14uRe66lOc_GBZaLFilUBK6L2o5FJ0uif/view?usp=drive_link)
 [Watch the demo video](https://drive.google.com/file/d/1D_2i2Cn-pyw8Hx2N_tr-joY-gydJyRVl/view?usp=drive_link)
 
