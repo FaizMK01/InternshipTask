@@ -22,7 +22,7 @@ Check out the demo of the project in the video below:
 First Video:
 
 Google Sign-In
-Resend Verification Steps
+Resend Verification Dialog box 60 second
 
 Second Video:
 
