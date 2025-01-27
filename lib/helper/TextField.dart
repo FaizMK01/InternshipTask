@@ -4,12 +4,12 @@ import '../constants/app_colors.dart';
 class HelperField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final IconData prefixIcon; // Accepts IconData instead of Icon widget
+  final IconData prefixIcon;
   final IconButton? suffixIcon;
   final bool obscureText;
   final String? Function(String?)? validator;
 
-  HelperField({
+  const HelperField({super.key,
     required this.controller,
     required this.hintText,
     required this.prefixIcon,
@@ -23,12 +23,12 @@ class HelperField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.grey[200], // Optional background color
+        color: Colors.grey[200],
       ),
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
-        validator: validator ?? // Use the provided validator if available
+        validator: validator ??
                 (value) {
               if (value == null || value.isEmpty) {
                 return "Please fill the field.";
@@ -39,22 +39,22 @@ class HelperField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           prefixIcon: Icon(prefixIcon),
-          suffixIcon: suffixIcon, // Optional suffix icon
+          suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none, // No border by default
+            borderSide: BorderSide.none,
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: Colors.grey), // Border when not focused
+            borderSide: BorderSide(color: Colors.grey),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: AppColors.primaryColor), // Border when focused
+            borderSide: BorderSide(color: AppColors.primaryColor),
           ),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           filled: true,
-          fillColor: Colors.white, // Background color for the field
+          fillColor: Colors.white,
         ),
       ),
     );

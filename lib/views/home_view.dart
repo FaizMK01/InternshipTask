@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:interni_task/controllers/signup_controller.dart';
+import 'package:interni_task/firebase_services/firebase_services.dart';
+import 'package:interni_task/helper/custom_snackbar.dart';
 import 'package:interni_task/helper/dialogbutton.dart';
 import '../constants/app_colors.dart';
 import '../controllers/homeController.dart';
@@ -12,125 +13,142 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.put(HomeController());
-    final SignupController signupController = Get.put(SignupController());
+    final FirebaseServices services = FirebaseServices();
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double fontSize = screenWidth < 400 ? 18 : 22;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppColors.primaryColor,
-        title: const Text(
+        title: Text(
           "Home View",
           style: TextStyle(
-            fontSize: 25,
+            fontSize: fontSize,
             color: AppColors.whiteColor,
           ),
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 30, right: 10),
+        padding: EdgeInsets.only(bottom: screenHeight * 0.05, right: 10),
         child: FloatingActionButton(
           onPressed: () {
 
-            signupController.signOut();
+            services.logout();
 
           },
           backgroundColor: AppColors.primaryColor,
-
-          child: const Icon(Icons.logout,color: AppColors.whiteColor,),
+          child: Icon(Icons.logout, color: AppColors.whiteColor),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(top: 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Obx(
-                    () => Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    CircleAvatar(
-                      radius: 100,
-                      backgroundImage: homeController.profileImage.value.isEmpty
-                          ? const AssetImage("assets/google_image.png")
-                      as ImageProvider
-                          : FileImage(File(homeController.profileImage.value)),
-                      child: homeController.profileImage.value.isEmpty
-                          ? const Icon(Icons.person, size: 100)
-                          : null,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.camera_alt, size: 30),
-                      onPressed: () {
-                        homeController.showImagePickerDialog();
-                      },
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(top: screenHeight * 0.12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Obx(
+                      () => Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      CircleAvatar(
+                        radius: screenWidth * 0.25,
+                        backgroundColor: Colors.grey[300], // Background color of the CircleAvatar
+                        child: homeController.profileImage.value.isEmpty
+                            ? const Icon(
+                          Icons.person,
+                          size: 100,
+                          color: Colors.grey, // Icon color
+                        )
+                            : ClipOval(
+                          child: Image.file(
+                            File(homeController.profileImage.value),
+                            fit: BoxFit.cover,
+                            width: screenWidth * 0.5, // Ensure it covers the CircleAvatar
+                            height: screenWidth * 0.5,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt, size: 30),
+                        onPressed: () {
+                          homeController.showImagePickerDialog();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 50),
+              SizedBox(height: screenHeight * 0.07),
 
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Obx(
-                    () => Text(
-                  "Email: ${homeController.email.value}",
-                  style: const TextStyle(fontSize: 18),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                child: Obx(
+                      () => Text(
+                    "Email: ${homeController.email.value}",
+                    style: TextStyle(fontSize: fontSize),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
+              SizedBox(height: screenHeight * 0.04),
 
-
-            ListTile(
-              title: Obx(
-                    () => Text(
-                  homeController.name.value,
-                  style: const TextStyle(fontSize: 18),
+              ListTile(
+                title: Obx(
+                      () => Text(
+                    homeController.name.value,
+                    style: TextStyle(fontSize: fontSize),
+                  ),
                 ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () {
-                  Get.defaultDialog(
-                    title: "Edit Name",
-                    actions: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
+                trailing: IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    // Initialize a controller for the text field
+                    TextEditingController nameController = TextEditingController(text: homeController.name.value);
 
-                          DialogHelperButton(
+                    Get.defaultDialog(
+                      title: "Edit Name",
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            DialogHelperButton(
                               text: "Cancel",
                               textColor: AppColors.whiteColor,
                               backColor: Colors.red,
-                              onTap: (){
-                                Get.back();
-                              }),
-
-                          DialogHelperButton(
+                              onTap: () {
+                                Get.back(); // Close the dialog without updating
+                              },
+                            ),
+                            DialogHelperButton(
                               text: "Update",
                               textColor: AppColors.whiteColor,
                               backColor: Colors.green,
-                              onTap: (){
+                              onTap: () {
+                                // Get the updated name from the TextField controller
+                                String updatedName = nameController.text; // Getting text directly from the controller
 
-                              }),
+                                // Call the function to update the name in Firestore
+                                homeController.updateName(updatedName);
+                                Get.back();
+                                CustomSnackBar.successMessage("Name Updated");// Update the name
 
-                        ],
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                      content: TextField(
+                        controller: nameController, // Use the controller for the text field
+                        decoration: const InputDecoration(hintText: "Enter new name"),
                       ),
-                    ],
-                    content: TextField(
-                      decoration: const InputDecoration(hintText: "Enter new name"),
-                      onSubmitted: (newName) {
-                        homeController.updateName(newName); // Update the name in the controller
-                        Get.back(); // Close the dialog after update
-                      },
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

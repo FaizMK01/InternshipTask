@@ -1,129 +1,155 @@
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:interni_task/helper/custom_snackbar.dart';
 import 'package:interni_task/views/sign_up_view.dart';
 import '../controllers/login_controller.dart';
 import '../firebase_services/firebase_services.dart';
 import '../helper/TextField.dart';
 import '../helper/UI_button.dart';
+import '../helper/shared_prefs.dart';
+import 'home_view.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
 
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final loginController = Get.put(LoginController());
+  final SharedPrefService sharedPrefService = SharedPrefService();
   final _formKey = GlobalKey<FormState>();
   final FirebaseServices firebaseServices = FirebaseServices();
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final isSmallScreen = screenWidth < 600;
 
     return Scaffold(
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
-              Gap(20),
-
+              Gap(screenHeight * 0.02),
 
               HelperField(
-                controller: nameController,
-                hintText: "Enter your name",
-                prefixIcon: Icons.person,
+                controller: emailController,
+                hintText: "Enter your Email",
+                prefixIcon: Icons.email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please Enter Your Name";
+                    return "Please enter your Email";
                   }
                   return null;
                 },
               ),
-              // Email TextFormField
+              Gap(screenHeight * 0.02),
 
-              Gap(20),
-
-              Obx(()=>HelperField(
-                controller: passwordController,
-                hintText: "Enter your password",
-                prefixIcon: Icons.lock,
-                obscureText: loginController.isPasswordVisible.value,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    loginController.isPasswordVisible.toggle();
-                  },
-                  icon: Icon(loginController.isPasswordVisible.value
-                      ? Icons.visibility_off
-                      : Icons.visibility),
+              Obx(
+                    () => HelperField(
+                  controller: passwordController,
+                  hintText: "Enter your Password",
+                  prefixIcon: Icons.lock,
+                  obscureText: loginController.isPasswordVisible.value,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      loginController.isPasswordVisible.toggle();
+                    },
+                    icon: Icon(
+                      loginController.isPasswordVisible.value
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                    ),
+                  ),
                 ),
+              ),
+              Gap(screenHeight * 0.01),
 
-              )),
-
-              Gap(10),
-
-              // Forgot Password Button
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
+                    // Add Forgot Password Logic Here
                   },
-                  child: const Text("Forgot Password?"),
+                  child: Text(
+                    "Forgot Password?",
+                    style: TextStyle(fontSize: isSmallScreen ? 12 : 14),
+                  ),
                 ),
               ),
-              Gap(20),
+              Gap(screenHeight * 0.02),
 
-              // Login Button
-              Obx(() => UiButton(
+              UiButton(
                 message: "Login",
                 onTap: loginController.isLoading.value
                     ? null
-                    : () {
+                    : () async {
                   if (_formKey.currentState!.validate()) {
-                    String name = nameController.text;
-                    String password = passwordController.text;
-                    loginController.login(name, password);
-                    nameController.clear();
-                    passwordController.clear();
+                    loginController.isLoading.value = true;
+                    try {
+                      String email = emailController.text.trim();
+                      String password = passwordController.text.trim();
+
+                      Map<String, String> userData = await firebaseServices.login(email, password);
+
+                      await sharedPrefService.saveUserData(
+                        userData['name']!,
+                        userData['email']!,
+                        userData['uid']!,
+                      );
+
+                      Get.off(() => HomeView());
+                      CustomSnackBar.successMessage("Login Successfully");
+                    } catch (e) {
+                      CustomSnackBar.errorMessage("Login Failed, ${e.toString()}");
+                    } finally {
+                      loginController.isLoading.value = false;
+                    }
                   }
                 },
-              )),
+              ),
+              Gap(screenHeight * 0.015),
 
-              Gap(15),
-
-              // Sign Up Redirect
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an account?"),
-                  Gap(5),
+                  Text(
+                    "Don't have an account?",
+                    style: TextStyle(fontSize: isSmallScreen ? 12 : 14),
+                  ),
+                  Gap(screenWidth * 0.01),
                   TextButton(
                     onPressed: () {
-                      Get.to(() => SignUpView(),
-                          transition: Transition.upToDown,
-                          duration: const Duration(seconds: 1));
+                      Get.to(
+                            () => SignUpView(),
+                        transition: Transition.upToDown,
+                        duration: const Duration(seconds: 1),
+                      );
                     },
-                    child: const Text("Sign Up"),
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(fontSize: isSmallScreen ? 12 : 14),
+                    ),
                   ),
                 ],
               ),
-              Gap(15),
+              Gap(screenHeight * 0.015),
 
-              // Google Login Button
+
               GestureDetector(
                 onTap: () {
-                  //  firebaseServices.signInWithGoogle();
+                  firebaseServices.signInWithGoogle();
                 },
                 child: Image.asset(
                   "assets/google_image.png",
-                  height: 50,
-                  width: 50,
+                  height: screenHeight * 0.06,
+                  width: screenWidth * 0.12,
                 ),
               ),
             ],
@@ -132,6 +158,4 @@ class LoginView extends StatelessWidget {
       ),
     );
   }
-
-
 }

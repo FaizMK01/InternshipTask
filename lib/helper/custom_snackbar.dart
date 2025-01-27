@@ -17,7 +17,7 @@ class CustomSnackBar{
 
 
   }
-  static errorMessage(String eMessage){
+  static errorMessage(String eMessage,){
     return Get.showSnackbar(GetSnackBar(
       title: "Error",
       message: eMessage,
