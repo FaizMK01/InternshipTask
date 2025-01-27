@@ -30,7 +30,7 @@ Validation and Verification Link
 Login Screen
 Home Screen
 Name update and Image pick from camera and gallery
-Signup, Login, and Logout Snackbars
+Signup, Login, and Logout Success and Failure Snackbars
 
 [Watch the demo video](https://drive.google.com/file/d/14uRe66lOc_GBZaLFilUBK6L2o5FJ0uif/view?usp=drive_link)
 [Watch the demo video](https://drive.google.com/file/d/1D_2i2Cn-pyw8Hx2N_tr-joY-gydJyRVl/view?usp=drive_link)
