@@ -2,17 +2,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import '../firebase_services/firebase_services.dart';
 import '../helper/custom_snackbar.dart';
 import '../views/login_view.dart';
 
 class SignupController extends GetxController {
-  final FirebaseServices firebaseServices = FirebaseServices();
 
+  final FirebaseServices firebaseServices = FirebaseServices();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   RxBool isPasswordVisible = true.obs;
 
   Future<void> signup(String name,String email, String password,) async {
@@ -47,5 +46,21 @@ class SignupController extends GetxController {
     }
   }
 
+  Future<void> signOut() async {
+    try {
+      // Check if user is signed in via Google
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.signOut();
+      }
 
+      // Sign out from Firebase
+      await auth.signOut();
+      print("Signed out from Firebase");
+
+
+      Get.offAllNamed('/login'); // Replace with your login route
+    } catch (e) {
+      Get.snackbar("Error", "Failed to sign out: $e");
+    }
+  }
 }

@@ -21,12 +21,16 @@ class FirebaseServices {
       throw FirebaseAuthException(message: e.toString(), code: 'signup-failed');
     }
   }
-
   Future<void> login(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
       throw FirebaseAuthException(message: e.toString(), code: 'login-failed');
     }
+  }
+  Future<void> logout()async{
+    await _auth.signOut();
+
+
   }
 }
