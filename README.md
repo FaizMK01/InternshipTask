@@ -29,7 +29,7 @@ Second Video:
 Validation and Verification Link
 Login Screen
 Home Screen
-Name and Image Edit
+Name update and Image pick from camera and gallery
 Signup, Login, and Logout Snackbars
 
 [Watch the demo video](https://drive.google.com/file/d/14uRe66lOc_GBZaLFilUBK6L2o5FJ0uif/view?usp=drive_link)
