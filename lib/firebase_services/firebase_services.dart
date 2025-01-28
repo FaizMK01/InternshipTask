@@ -159,7 +159,6 @@ class FirebaseServices {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
-        // User canceled the sign-in
         return null;
       }
 
@@ -174,11 +173,9 @@ class FirebaseServices {
       final User? user = userCredential.user;
 
       if (user != null) {
-        // Check if the user exists in Firestore
         final userDoc = await firestore.collection('users').doc(user.uid).get();
 
         if (!userDoc.exists) {
-          // Add user to Firestore if not exists
           await firestore.collection('users').doc(user.uid).set({
             'uid': user.uid,
             'name': user.displayName,
@@ -188,7 +185,6 @@ class FirebaseServices {
           });
         }
 
-        // Navigate to HomeView after ensuring user data is set up
         Get.offAll(HomeView());
       }
 
