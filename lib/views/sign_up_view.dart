@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import '../controllers/signup_controller.dart';
 import '../firebase_services/firebase_services.dart';
 import '../helper/TextField.dart';
 import '../helper/UI_button.dart';
@@ -10,7 +8,6 @@ import 'login_view.dart';
 class SignUpView extends StatelessWidget {
   SignUpView({super.key});
 
-  final SignupController signUpController = Get.put(SignupController());
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -66,13 +63,13 @@ class SignUpView extends StatelessWidget {
                       controller: passwordController,
                       hintText: "Enter your password",
                       prefixIcon: Icons.lock,
-                      obscureText: signUpController.isPasswordVisible.value,
+                      obscureText: firebaseServices.isPasswordVisible.value,
                       suffixIcon: IconButton(
                         onPressed: () {
-                          signUpController.isPasswordVisible.toggle();
+                          firebaseServices.isPasswordVisible.toggle();
                         },
                         icon: Icon(
-                          signUpController.isPasswordVisible.value
+                          firebaseServices.isPasswordVisible.value
                               ? Icons.visibility_off
                               : Icons.visibility,
                         ),
@@ -89,7 +86,7 @@ class SignUpView extends StatelessWidget {
                         String name = nameController.text;
                         String email = emailController.text;
                         String password = passwordController.text;
-                        await FirebaseServices().signup(name, email, password);
+                        await firebaseServices.signup(name, email, password);
                       }
                       nameController.clear();
                       emailController.clear();

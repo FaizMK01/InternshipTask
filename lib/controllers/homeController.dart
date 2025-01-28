@@ -16,7 +16,7 @@ class HomeController extends GetxController {
     fetchUserData();
   }
 
-  //
+
   Future<void> fetchUserData() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
@@ -59,7 +59,6 @@ class HomeController extends GetxController {
     }
   }
 
-
   void showImagePickerDialog() {
     Get.defaultDialog(
       title: "Select Image",
@@ -89,8 +88,7 @@ class HomeController extends GetxController {
     try {
       final XFile? pickedFile = await ImagePicker().pickImage(source: source);
       if (pickedFile != null) {
-        profileImage.value = pickedFile.path; // Update image path
-        // Optionally, you can upload the image to Firebase Storage and update the URL in Firestore
+        profileImage.value = pickedFile.path;
       }
     } catch (e) {
     CustomSnackBar.errorMessage("Error, Failed to pick an image: $e");

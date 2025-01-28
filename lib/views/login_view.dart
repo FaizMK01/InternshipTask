@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:interni_task/helper/custom_snackbar.dart';
 import 'package:interni_task/views/sign_up_view.dart';
-import '../controllers/login_controller.dart';
 import '../firebase_services/firebase_services.dart';
 import '../helper/TextField.dart';
 import '../helper/UI_button.dart';
@@ -15,7 +14,6 @@ class LoginView extends StatelessWidget {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final loginController = Get.put(LoginController());
   final SharedPrefService sharedPrefService = SharedPrefService();
   final _formKey = GlobalKey<FormState>();
   final FirebaseServices firebaseServices = FirebaseServices();
@@ -56,13 +54,13 @@ class LoginView extends StatelessWidget {
                   controller: passwordController,
                   hintText: "Enter your Password",
                   prefixIcon: Icons.lock,
-                  obscureText: loginController.isPasswordVisible.value,
+                  obscureText: firebaseServices.isPasswordVisible.value,
                   suffixIcon: IconButton(
                     onPressed: () {
-                      loginController.isPasswordVisible.toggle();
+                      firebaseServices.isPasswordVisible.toggle();
                     },
                     icon: Icon(
-                      loginController.isPasswordVisible.value
+                      firebaseServices.isPasswordVisible.value
                           ? Icons.visibility_off
                           : Icons.visibility,
                     ),
@@ -87,11 +85,11 @@ class LoginView extends StatelessWidget {
 
               UiButton(
                 message: "Login",
-                onTap: loginController.isLoading.value
+                onTap: firebaseServices.isLoading.value
                     ? null
                     : () async {
                   if (_formKey.currentState!.validate()) {
-                    loginController.isLoading.value = true;
+                    firebaseServices .isLoading.value = true;
                     try {
                       String email = emailController.text.trim();
                       String password = passwordController.text.trim();
@@ -109,7 +107,7 @@ class LoginView extends StatelessWidget {
                     } catch (e) {
                       CustomSnackBar.errorMessage("Login Failed, ${e.toString()}");
                     } finally {
-                      loginController.isLoading.value = false;
+                  firebaseServices.isLoading.value = false;
                     }
                   }
                 },

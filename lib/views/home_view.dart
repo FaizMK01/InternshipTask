@@ -55,18 +55,18 @@ class HomeView extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: screenWidth * 0.25,
-                        backgroundColor: Colors.grey[300], // Background color of the CircleAvatar
+                        backgroundColor: Colors.grey[300],
                         child: homeController.profileImage.value.isEmpty
                             ? const Icon(
                           Icons.person,
                           size: 100,
-                          color: Colors.grey, // Icon color
+                          color: Colors.grey,
                         )
                             : ClipOval(
                           child: Image.file(
                             File(homeController.profileImage.value),
                             fit: BoxFit.cover,
-                            width: screenWidth * 0.5, // Ensure it covers the CircleAvatar
+                            width: screenWidth * 0.5,
                             height: screenWidth * 0.5,
                           ),
                         ),
@@ -104,7 +104,6 @@ class HomeView extends StatelessWidget {
                 trailing: IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () {
-                    // Initialize a controller for the text field
                     TextEditingController nameController = TextEditingController(text: homeController.name.value);
 
                     Get.defaultDialog(
@@ -118,7 +117,7 @@ class HomeView extends StatelessWidget {
                               textColor: AppColors.whiteColor,
                               backColor: Colors.red,
                               onTap: () {
-                                Get.back(); // Close the dialog without updating
+                                Get.back();
                               },
                             ),
                             DialogHelperButton(
@@ -126,13 +125,11 @@ class HomeView extends StatelessWidget {
                               textColor: AppColors.whiteColor,
                               backColor: Colors.green,
                               onTap: () {
-                                // Get the updated name from the TextField controller
                                 String updatedName = nameController.text; // Getting text directly from the controller
 
-                                // Call the function to update the name in Firestore
                                 homeController.updateName(updatedName);
                                 Get.back();
-                                CustomSnackBar.successMessage("Name Updated");// Update the name
+                                CustomSnackBar.successMessage("Name Updated");
 
                               },
                             ),
@@ -140,7 +137,7 @@ class HomeView extends StatelessWidget {
                         ),
                       ],
                       content: TextField(
-                        controller: nameController, // Use the controller for the text field
+                        controller: nameController,
                         decoration: const InputDecoration(hintText: "Enter new name"),
                       ),
                     );
