@@ -15,23 +15,24 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-## Watch the Demo Video
+## Watch the Project Video
 
-Check out the demo of the project in the video below:
+Check out the features of the project in the videos below:
 
-First Video:
+### First Video:
+- Google Sign-In
+- If the email is not verified, a Resend Verification Dialog box with a 60-second timer
 
-Google Sign-In
-if the email is not verfied Resend Verification Dialog box 60 second
+### Second Video:
+- Validation and Verification Link
+- Login Screen
+- Home Screen
+- Name update and Image pick from camera and gallery
+- Signup, Login, and Logout Success and Failure Snackbars
 
-Second Video:
+[First Video](https://drive.google.com/file/d/1XZpyr6rPMA_USHQjQ5a6IST267YuvCg2/view?usp=drive_link)  
+[Second Video](https://drive.google.com/file/d/1fE7Av5QeB1UX2pdAHLEoeShShMcXDhp3/view?usp=drive_link)  
 
-Validation and Verification Link
-Login Screen
-Home Screen
-Name update and Image pick from camera and gallery
-Signup, Login, and Logout Success and Failure Snackbars
+## Download APK LINK
 
-[Watch the demo video](https://drive.google.com/file/d/14uRe66lOc_GBZaLFilUBK6L2o5FJ0uif/view?usp=drive_link)
-[Watch the demo video](https://drive.google.com/file/d/1D_2i2Cn-pyw8Hx2N_tr-joY-gydJyRVl/view?usp=drive_link)
-
+[Download the APK here](https://we.tl/t-Kxv7s0BlR2)
