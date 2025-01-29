@@ -30,8 +30,8 @@ Check out the features of the project in the videos below:
 - Name update and Image pick from camera and gallery
 - Signup, Login, and Logout Success and Failure Snackbars
 
-[First Video](https://drive.google.com/file/d/1XZpyr6rPMA_USHQjQ5a6IST267YuvCg2/view?usp=drive_link)  
-[Second Video](https://drive.google.com/file/d/1fE7Av5QeB1UX2pdAHLEoeShShMcXDhp3/view?usp=drive_link)  
+[First Video](https://drive.google.com/file/d/1XZpyr6rPMA_USHQjQ5a6IST267YuvCg2/view?usp=sharing)  
+[Second Video](https://drive.google.com/file/d/1fE7Av5QeB1UX2pdAHLEoeShShMcXDhp3/view?usp=sharing)  
 
 ## Download APK LINK
 
